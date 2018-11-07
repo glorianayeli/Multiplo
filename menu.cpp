@@ -2,23 +2,16 @@
 #include <stdlib.h>
 #include <time.h>
 using namespace std;
-void menu(int vector[], int tam);
 void agregar(int vector[], int tam);
-void eliminar(int vector[], int tam);
+void eliminar(int vector[], int tam, int valor);
 void reporte(int vector[], int tam);
-bool comprobar(int vector[], int tam,int valor);
-void buscar(int vector[],int tam);
-void modificar(int vector[], int tam);
-void insertar(int vector[],int tam);
+void modificar(int vector[],int tam, int modificable, int modificador);
+int buscar(int vector[],int tam, int valor);
+void insertar(int vector[],int tam, int pos, int valor);
 int main()
 {
-	int vector[20]={0}, tam = 20;
-	menu(vector,tam);
-    return 0;
-}
-void menu(int vector[],int tam)
-{
-    int op;
+	int vector[20]={0}, tam = 20,valor,pos,modificable,modificador;
+	int op;
     srand(time(0));
 	cout<<"Introduzca una opcion";
 	cin>>op;
@@ -31,16 +24,44 @@ void menu(int vector[],int tam)
 			agregar(vector, tam);
 			break;
 		case 2:
-		    eliminar(vector,tam);
+            cout<<"Dame el valor a eliminar";
+            cin>>valor;
+		    eliminar(vector,tam,valor);
 		    break;
 		case 3:
-		    buscar(vector,tam);
+		    cout<<"Dame el valor a buscar";
+            cin>>valor;
+            pos=buscar(vector,tam,valor);
+		    if(pos!=-1)
+		    {
+		        cout<<"El valor:"<<valor<<"\t"<<"esta en la posicion"<<pos<<endl;
+		    }
+		    else
+		    {
+		        cout<<"El valor no existe"<<endl;
+		    }
 		    break;
 		case 4:
-		    modificar(vector,tam);
+		    pos=buscar(vector,tam,modificable);
+            cout<<"Ingresa el nuevo valor"<<endl;
+            cin>>modificador;
+            cout<<"Ingresa el valor a modificar"<<endl;
+            cin>>modificable;
+            if(pos!=-1)
+            {
+		        modificar(vector,tam,modificable,modificador);
+            }
+            else
+            {
+                cout<<"El valor no existe"<<endl;
+            }
 		    break;
 		case 5:
-		    insertar(vector,tam);
+            cout<<"Inserta la posicion a modificar"<<endl;
+            cin>>pos;
+            cout<<"Inserta el valor"<<endl;
+            cin>>valor;
+		    insertar(vector,tam,pos,valor);
 		    break;
 		case 6:
 		    //system("cls");
@@ -50,7 +71,9 @@ void menu(int vector[],int tam)
 		cout<<"Introduzca una opcion";
 	    cin>>op;
 	}
+    return 0;
 }
+
 void agregar(int vector[], int tam)
 {
     
@@ -78,13 +101,9 @@ void reporte(int vector[], int tam)
 	    }
     }
 }
-void eliminar(int vector[], int tam)
+void eliminar(int vector[], int tam, int valor)
 {
-    int valor;
-    cout<<"Dame el valor a eliminar";
-    cin>>valor;
-    if(comprobar(vector,tam,valor)==true)
-    {
+
         for(int i=0;i<tam;i++)
         {
             if(vector[i]==valor)
@@ -96,50 +115,21 @@ void eliminar(int vector[], int tam)
                 cout<<"El valor ha sido modificado";
             }
         }
-        
-    }
-    else
-    {
-        cout<<"El valor no existe";
-    }
 }
-bool comprobar(int vector[], int tam, int valor)
+int buscar(int vector[], int tam, int valor)
 {
-    for(int i=0;i<tam;i++)
+    int pos=-1;
+    for(int i=0;i<25;i++)
     {
         if(vector[i]==valor)
         {
-            return true;
+            pos=i;
         }
     }
+    return pos;
 }
-void buscar(int vector[], int tam)
+void modificar(int vector[],int tam, int modificable, int modificador)
 {
-    int valor;
-    cout<<"Ingresa el valor";
-    cin>>valor;
-    if(comprobar(vector,tam,valor)==true)
-    {
-        for(int i=0;i<tam;i++)
-        {
-            if(vector[i]==valor)
-            {
-                cout<<"posicion"<<"["<<i<<"]";
-            }
-        }
-    }
-    else
-    {
-        cout<<"-1";
-    }
-}
-void modificar(int vector[],int tam)
-{
-    int modificable,modificador;
-    cout<<"Ingresa el nuevo valor"<<endl;
-    cin>>modificador;
-    cout<<"Ingresa el valor a modificar"<<endl;
-    cin>>modificable;
     for(int i=0;i<tam;i++)
     {
         if(vector[i]==modificable)
@@ -148,19 +138,22 @@ void modificar(int vector[],int tam)
         }
     }
 }
-void insertar(int vector[], int tam)
+void insertar(int vector[], int tam, int pos, int valor)
 {
-    int pos,valor,tem;
-    cout<<"Inserta la posicion a modificar"<<endl;
-    cin>>pos;
-    cout<<"Inserta el valor"<<endl;
-    cin>>valor;
+    int tem,cont;
     if(vector[pos]!=0)
     {
-        for(int i=pos;i<tam&&vector[i+1]!=0;i++)
+        tem=vector[pos+1];
+        for(int i=pos;i<tam;i++)
         {
-            tem=vector[i+1];
-            vector[i]=tem;
+            if(vector[i]!=0)
+            {
+                cont++;
+            }
+        }
+        for(int i=cont+1;i>=pos;i--)
+        {
+            vector[cont]=vector[cont+1];
         }
         vector[pos]=valor;
     }
@@ -168,8 +161,4 @@ void insertar(int vector[], int tam)
     {
         cout<<"ERROR!!";
     }
-    
 }
-
-
-
