@@ -61,7 +61,14 @@ int main()
             cin>>pos;
             cout<<"Inserta el valor"<<endl;
             cin>>valor;
-		    insertar(vector,tam,pos,valor);
+            if(vector[pos]!=0)
+            {
+		        insertar(vector,tam,pos,valor);
+            }
+            else
+            {
+                cout<<"ERROR!!";
+            }
 		    break;
 		case 6:
 		    //system("cls");
@@ -82,7 +89,7 @@ void agregar(int vector[], int tam)
 	{
 		if (vector[i] != 0)
 		{
-			vector[i++];
+			i++;
 		}
 		else
 		{
@@ -103,7 +110,19 @@ void reporte(int vector[], int tam)
 }
 void eliminar(int vector[], int tam, int valor)
 {
-
+    int pos=buscar(vector,tam,valor);
+    if (pos!=-1)
+    {
+                for(int x=pos;x<tam;x++)
+                {
+                    vector[x]=vector[x+1];
+                }
+                //cout<<"El valor ha sido modificado";
+                return 1;
+        
+    }
+    return 0;
+    
         for(int i=0;i<tam;i++)
         {
             if(vector[i]==valor)
@@ -130,6 +149,15 @@ int buscar(int vector[], int tam, int valor)
 }
 void modificar(int vector[],int tam, int modificable, int modificador)
 {
+    int pos=buscar(vector,tam,valor);
+    if (pos!=-1)
+    {
+        vector[pos]=modificador;
+    }  
+    
+    
+    
+    
     for(int i=0;i<tam;i++)
     {
         if(vector[i]==modificable)
@@ -141,24 +169,13 @@ void modificar(int vector[],int tam, int modificable, int modificador)
 void insertar(int vector[], int tam, int pos, int valor)
 {
     int tem,cont;
-    if(vector[pos]!=0)
-    {
-        tem=vector[pos+1];
-        for(int i=pos;i<tam;i++)
+        for(int i=tam-1;i>=pos-1;i++)
         {
-            if(vector[i]!=0)
-            {
-                cont++;
-            }
-        }
-        for(int i=cont+1;i>=pos;i--)
-        {
-            vector[cont]=vector[cont+1];
+            vector[i]=vector[i-1];
         }
         vector[pos]=valor;
-    }
-    else
-    {
-        cout<<"ERROR!!";
-    }
 }
+
+
+
+
