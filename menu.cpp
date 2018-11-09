@@ -122,18 +122,6 @@ void eliminar(int vector[], int tam, int valor)
         
     }
     return 0;
-    
-        for(int i=0;i<tam;i++)
-        {
-            if(vector[i]==valor)
-            {
-                for(int x=i;x<tam;x++)
-                {
-                    vector[x]=vector[x+1];
-                }
-                cout<<"El valor ha sido modificado";
-            }
-        }
 }
 int buscar(int vector[], int tam, int valor)
 {
@@ -153,18 +141,7 @@ void modificar(int vector[],int tam, int modificable, int modificador)
     if (pos!=-1)
     {
         vector[pos]=modificador;
-    }  
-    
-    
-    
-    
-    for(int i=0;i<tam;i++)
-    {
-        if(vector[i]==modificable)
-        {
-            vector[i]=modificador;
-        }
-    }
+    }   
 }
 void insertar(int vector[], int tam, int pos, int valor)
 {
@@ -175,6 +152,10 @@ void insertar(int vector[], int tam, int pos, int valor)
         }
         vector[pos]=valor;
 }
+
+
+
+
 
 
 
